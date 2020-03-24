@@ -1,0 +1,126 @@
+<div class="row">
+  <div class="card col">
+    <h3 class="card-header font-weight-bold d-flex justify-content-between">
+      <span>帳號管理</span>
+      <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#divModalForAdding">
+        <i class="fas fa-user-plus"></i> 新增
+      </button>
+    </h3>
+    <div class="card-body row" id="divDataArea"></div>
+  </div>
+</div>
+
+<div class="modal fade" id="divModalForAdding" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">新增帳號</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">帳號</span>
+          </div>
+          <input id="inputAccountForAdding" type="text" class="form-control" placeholder="帳號" value="ANDY" />
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">角色</span>
+          </div>
+          <select id="selectRoleForAdding" class="form-control" placeholder="角色"></select>
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">姓名</span>
+          </div>
+          <input id="inputNameForAdding" type="text" class="form-control" placeholder="姓名" value="吳安迪" />
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Email</span>
+          </div>
+          <input id="inputEmailForAdding" type="text" class="form-control" placeholder="Email" value="andy@eai.com.tw">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary">確定</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="divModalForAltering" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">修改帳號</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">帳號</span>
+          </div>
+          <input id="inputAccountForAltering" type="text" class="form-control" placeholder="帳號" disabled="disabled"
+            value="ANDY" />
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">角色</span>
+          </div>
+          <select id="selectRoleForAltering" class="form-control" placeholder="角色" disabled="disabled"></select>
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">姓名</span>
+          </div>
+          <input id="inputNameForAltering" type="text" class="form-control" placeholder="姓名" value="吳安迪">
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Email</span>
+          </div>
+          <input id="inputEmailForAltering" type="text" class="form-control" placeholder="Email"
+            value="andy@eai.com.tw">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary">確定</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="divModalForDeleting" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">刪除帳號</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">帳號</span>
+          </div>
+          <input id="inputAccountForDeleting" type="text" class="form-control" placeholder="帳號" disabled="disabled"
+            value="ANDY" />
+        </div>
+        <div class="alert alert-warning" role="alert">確定刪除該帳號嗎？</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary">確定</button>
+      </div>
+    </div>
+  </div>
+</div>
