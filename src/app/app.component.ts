@@ -62,35 +62,5 @@ export class AppComponent implements OnInit {
     data.RoleID = '3';
     data.Name = '林小豪';
     this.currentTableData.push(data);
-
-    this.renewTableData();
-  }
-
-  renewTableData() {
-    let html = '';
-    for (let index = 0; index < this.currentTableData.length; index++) {
-      let account = this.currentTableData[index].Account;
-      let roleID = this.currentTableData[index].RoleID;
-      let name = this.currentTableData[index].Name;
-      html += '<div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 my-3">'
-        + '<div class="card">'
-        + '<h5 class="card-header">' + account.toUpperCase() + ' <span class="badge badge-' + this.roleMap[roleID].Color + '">' + this.roleMap[roleID].Text + '</span></h5>'
-        + '<div class="card-body">'
-        + '<h5 class="card-title">' + name + '</h5>'
-        + '<p class="card-text">' + account.toLowerCase() + '@eai.com.tw</p>'
-        + '</div>'
-        + '<div class="card-footer text-right">'
-        + '<button type="button" class="btn btn-outline-success mr-1" data-toggle="modal" data-target="#divModalForAltering">'
-        + '<i class="fas fa-edit"></i> 修改'
-        + '</button>'
-        + '<button type="button" class="btn btn-outline-danger ml-1" data-toggle="modal" data-target="#divModalForDeleting">'
-        + '<i class="far fa-trash-alt"></i> 刪除'
-        + '</button>'
-        + '</div>'
-        + '</div>'
-        + '</div>';
-    }
-    let tableArea = document.getElementById("divDataArea");
-    tableArea.innerHTML = html;
   }
 }
