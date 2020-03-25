@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-declare let $: any;
+import * as $ from 'jquery';
 
 class TableData {
   Account = '';
@@ -18,16 +18,11 @@ export class AppComponent implements OnInit {
     '2': { Text: '維護者', Color: 'success' },
     '3': { Text: '操作員', Color: 'secondary' }
   };
+  roleMapIdList = Object.keys(this.roleMap);
   currentTableData: TableData[] = [];
 
   ngOnInit(): void {
-    var html = '';
-    Object.keys(this.roleMap).forEach(key => {
-      html += '<option value="' + key + '">' + this.roleMap[key].Text + '</option>';
-    });
-    $('#selectRoleForAdding, #selectRoleForAltering').html(html);
-
-    var data = new TableData();
+    let data = new TableData();
     data.Account = 'ANDY';
     data.RoleID = '1';
     data.Name = '吳安迪';
@@ -72,11 +67,11 @@ export class AppComponent implements OnInit {
   }
 
   renewTableData() {
-    var html = '';
-    for (var index = 0; index < this.currentTableData.length; index++) {
-      var account = this.currentTableData[index].Account;
-      var roleID = this.currentTableData[index].RoleID;
-      var name = this.currentTableData[index].Name;
+    let html = '';
+    for (let index = 0; index < this.currentTableData.length; index++) {
+      let account = this.currentTableData[index].Account;
+      let roleID = this.currentTableData[index].RoleID;
+      let name = this.currentTableData[index].Name;
       html += '<div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 my-3">'
         + '<div class="card">'
         + '<h5 class="card-header">' + account.toUpperCase() + ' <span class="badge badge-' + this.roleMap[roleID].Color + '">' + this.roleMap[roleID].Text + '</span></h5>'
@@ -95,7 +90,7 @@ export class AppComponent implements OnInit {
         + '</div>'
         + '</div>';
     }
-    var tableArea = document.getElementById("divDataArea");
+    let tableArea = document.getElementById("divDataArea");
     tableArea.innerHTML = html;
   }
 }
