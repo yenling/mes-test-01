@@ -2,26 +2,30 @@
   <div class="card col">
     <h3 class="card-header font-weight-bold d-flex justify-content-between">
       <span>帳號管理</span>
-      <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#divModalForAdding">
+      <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#divModalForAdding"
+        (click)="openAddingDialog()">
         <i class="fa fa-user-plus"></i> 新增
       </button>
     </h3>
     <div class="card-body row">
 
-      <div *ngFor="let data of currentTableData" class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 my-3">
+      <div *ngFor="let data of currentTableData ; let dataIndex=index"
+        class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 my-3">
         <div class="card">
           <h5 class="card-header">
-            {{data.Account.toUpperCase()}}
+            {{data.Account}}
             <span class="badge badge-{{roleMap[data.RoleID].Color}}">{{roleMap[data.RoleID].Text}}</span></h5>
           <div class="card-body">
             <h5 class="card-title">{{data.Name}}</h5>
-            <p class="card-text">{{data.Account.toLowerCase()}}@eai.com.tw</p>
+            <p class="card-text">{{data.Email}}</p>
           </div>
           <div class="card-footer text-right">
-            <button type="button" class="btn btn-outline-success mr-1" data-toggle="modal" data-target="#divModalForAltering">
+            <button type="button" class="btn btn-outline-success mr-1" data-toggle="modal"
+              data-target="#divModalForAltering" (click)="openAlteringDialog(dataIndex)">
               <i class="fa fa-edit"></i> 修改
             </button>
-            <button type="button" class="btn btn-outline-danger ml-1" data-toggle="modal" data-target="#divModalForDeleting">
+            <button type="button" class="btn btn-outline-danger ml-1" data-toggle="modal"
+              data-target="#divModalForDeleting" (click)="openDeletingDialog(dataIndex)">
               <i class="fa fa-trash"></i> 刪除
             </button>
           </div>
@@ -41,18 +45,18 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" *ngIf="currentAddingData">
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text">帳號</span>
           </div>
-          <input type="text" class="form-control" placeholder="帳號" value="ANDY" />
+          <input type="text" class="form-control" [(ngModel)]="currentAddingData.Account" required />
         </div>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text">角色</span>
           </div>
-          <select class="form-control" placeholder="角色">
+          <select [(ngModel)]="currentAddingData.RoleID" class="form-control" required>
             <option *ngFor="let id of roleMapIdList" value="{{id}}">{{roleMap[id].Text}}</option>
           </select>
         </div>
@@ -60,18 +64,21 @@
           <div class="input-group-prepend">
             <span class="input-group-text">姓名</span>
           </div>
-          <input type="text" class="form-control" placeholder="姓名" value="吳安迪" />
+          <input type="text" class="form-control" [(ngModel)]="currentAddingData.Name" required />
         </div>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text">Email</span>
           </div>
-          <input type="text" class="form-control" placeholder="Email" value="andy@eai.com.tw">
+          <input type="email" class="form-control" [(ngModel)]="currentAddingData.Email" required>
+        </div>
+        <div *ngIf="alertMessageForAdding" class="alert alert-danger">
+          <div>{{alertMessageForAdding}}</div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-        <button type="button" class="btn btn-primary">確定</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" #cancelButtonForAdding>取消</button>
+        <button type="button" class="btn btn-primary" (click)="doAdding(cancelButtonForAdding)">確定</button>
       </div>
     </div>
   </div>
@@ -86,37 +93,39 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" *ngIf="currentAlteringData">
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text">帳號</span>
           </div>
-          <input type="text" class="form-control" placeholder="帳號" disabled="disabled" value="ANDY" />
+          <input type="text" class="form-control" disabled="disabled" value="{{currentAlteringData.Account}}" />
         </div>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text">角色</span>
           </div>
-          <select class="form-control" placeholder="角色" disabled="disabled">
-            <option *ngFor="let id of roleMapIdList" value="{{id}}">{{roleMap[id].Text}}</option>
-          </select>
+          <input type="text" class="form-control" disabled="disabled"
+            value="{{roleMap[currentAlteringData.RoleID].Text}}" />
         </div>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text">姓名</span>
           </div>
-          <input type="text" class="form-control" placeholder="姓名" value="吳安迪">
+          <input type="text" class="form-control" [(ngModel)]="currentAlteringData.Name" required />
         </div>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text">Email</span>
           </div>
-          <input type="text" class="form-control" placeholder="Email" value="andy@eai.com.tw">
+          <input type="text" class="form-control" [(ngModel)]="currentAlteringData.Email" required>
+        </div>
+        <div *ngIf="alertMessageForAltering" class="alert alert-danger">
+          <div>{{alertMessageForAltering}}</div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-        <button type="button" class="btn btn-primary">確定</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" #cancelButtonForAltering>取消</button>
+        <button type="button" class="btn btn-primary" (click)="doAltering(cancelButtonForAltering)">確定</button>
       </div>
     </div>
   </div>
@@ -131,18 +140,19 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" *ngIf="currentDeletingData">
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text">帳號</span>
           </div>
-          <input type="text" class="form-control" placeholder="帳號" disabled="disabled" value="ANDY" />
+          <input type="text" class="form-control" disabled="disabled"
+            value="{{currentTableData[currentDeletingIndex]?.Account}}" />
         </div>
         <div class="alert alert-warning" role="alert">確定刪除該帳號嗎？</div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-        <button type="button" class="btn btn-primary">確定</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" #cancelButtonForDeleting>取消</button>
+        <button type="button" class="btn btn-primary" (click)="doDeleting(cancelButtonForDeleting)">確定</button>
       </div>
     </div>
   </div>
