@@ -2,8 +2,7 @@
   <div class="card col">
     <h3 class="card-header font-weight-bold d-flex justify-content-between">
       <span>帳號管理</span>
-      <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#divModalForAdding"
-        (click)="openAddingDialog()">
+      <button type="button" class="btn btn-outline-primary" (click)="openAddingDialog(modalForAdding)">
         <i class="fa fa-user-plus"></i> 新增
       </button>
     </h3>
@@ -20,12 +19,12 @@
             <p class="card-text">{{data.Email}}</p>
           </div>
           <div class="card-footer text-right">
-            <button type="button" class="btn btn-outline-success mr-1" data-toggle="modal"
-              data-target="#divModalForAltering" (click)="openAlteringDialog(dataIndex)">
+            <button type="button" class="btn btn-outline-success mr-1"
+              (click)="openAlteringDialog(dataIndex, modalForAltering)">
               <i class="fa fa-edit"></i> 修改
             </button>
-            <button type="button" class="btn btn-outline-danger ml-1" data-toggle="modal"
-              data-target="#divModalForDeleting" (click)="openDeletingDialog(dataIndex)">
+            <button type="button" class="btn btn-outline-danger ml-1"
+              (click)="openDeletingDialog(dataIndex, modalForDeleting)">
               <i class="fa fa-trash"></i> 刪除
             </button>
           </div>
@@ -36,124 +35,105 @@
   </div>
 </div>
 
-<div class="modal fade" id="divModalForAdding" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title"><i class="fa fa-user-plus"></i> 新增帳號</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+<ng-template #modalForAdding>
+  <div class="modal-header">
+    <h5 class="modal-title"><i class="fa fa-user-plus"></i> 新增帳號</h5>
+  </div>
+  <div class="modal-body" *ngIf="currentAddingData">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">帳號</span>
       </div>
-      <div class="modal-body" *ngIf="currentAddingData">
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text">帳號</span>
-          </div>
-          <input type="text" class="form-control" [(ngModel)]="currentAddingData.Account" required />
-        </div>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text">角色</span>
-          </div>
-          <select [(ngModel)]="currentAddingData.RoleID" class="form-control" required>
-            <option *ngFor="let id of roleMapIdList" value="{{id}}">{{roleMap[id].Text}}</option>
-          </select>
-        </div>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text">姓名</span>
-          </div>
-          <input type="text" class="form-control" [(ngModel)]="currentAddingData.Name" required />
-        </div>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text">Email</span>
-          </div>
-          <input type="email" class="form-control" [(ngModel)]="currentAddingData.Email" required>
-        </div>
-        <div *ngIf="alertMessageForAdding" class="alert alert-danger">
-          <div>{{alertMessageForAdding}}</div>
-        </div>
+      <input type="text" class="form-control" [(ngModel)]="currentAddingData.Account" required />
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">角色</span>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" #cancelButtonForAdding>取消</button>
-        <button type="button" class="btn btn-primary" (click)="doAdding(cancelButtonForAdding)">確定</button>
+      <select [(ngModel)]="currentAddingData.RoleID" class="form-control" required>
+        <option *ngFor="let id of roleMapIdList" value="{{id}}">{{roleMap[id].Text}}</option>
+      </select>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">姓名</span>
       </div>
+      <input type="text" class="form-control" [(ngModel)]="currentAddingData.Name" required />
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Email</span>
+      </div>
+      <input type="email" class="form-control" [(ngModel)]="currentAddingData.Email" required>
+    </div>
+    <div *ngIf="alertMessageForAdding" class="alert alert-danger">
+      <div>{{alertMessageForAdding}}</div>
     </div>
   </div>
-</div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">取消</button>
+    <button type="button" class="btn btn-primary" (click)="doAdding()" [disabled]="buttonDisabledForAdding">確定</button>
+  </div>
+</ng-template>
 
-<div class="modal fade" id="divModalForAltering" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title"><i class="fa fa-edit"></i> 修改帳號</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+<ng-template #modalForAltering>
+  <div class="modal-header">
+    <h5 class="modal-title"><i class="fa fa-edit"></i> 修改帳號</h5>
+  </div>
+  <div class="modal-body" *ngIf="currentAlteringData">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">帳號</span>
       </div>
-      <div class="modal-body" *ngIf="currentAlteringData">
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text">帳號</span>
-          </div>
-          <input type="text" class="form-control" disabled="disabled" value="{{currentAlteringData.Account}}" />
-        </div>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text">角色</span>
-          </div>
-          <input type="text" class="form-control" disabled="disabled"
-            value="{{roleMap[currentAlteringData.RoleID].Text}}" />
-        </div>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text">姓名</span>
-          </div>
-          <input type="text" class="form-control" [(ngModel)]="currentAlteringData.Name" required />
-        </div>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text">Email</span>
-          </div>
-          <input type="text" class="form-control" [(ngModel)]="currentAlteringData.Email" required>
-        </div>
-        <div *ngIf="alertMessageForAltering" class="alert alert-danger">
-          <div>{{alertMessageForAltering}}</div>
-        </div>
+      <input type="text" class="form-control" disabled="disabled" value="{{currentAlteringData.Account}}" />
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">角色</span>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" #cancelButtonForAltering>取消</button>
-        <button type="button" class="btn btn-primary" (click)="doAltering(cancelButtonForAltering)">確定</button>
+      <input type="text" class="form-control" disabled="disabled"
+        value="{{roleMap[currentAlteringData.RoleID].Text}}" />
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">姓名</span>
       </div>
+      <input type="text" class="form-control" [(ngModel)]="currentAlteringData.Name" required />
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Email</span>
+      </div>
+      <input type="text" class="form-control" [(ngModel)]="currentAlteringData.Email" required>
+    </div>
+    <div *ngIf="alertMessageForAltering" class="alert alert-danger">
+      <div>{{alertMessageForAltering}}</div>
     </div>
   </div>
-</div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">取消</button>
+    <button type="button" class="btn btn-primary" (click)="doAltering()"
+      [disabled]="buttonDisabledForAltering">確定</button>
+  </div>
+</ng-template>
 
-<div class="modal fade" id="divModalForDeleting" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title"><i class="fa fa-trash"></i> 刪除帳號</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" *ngIf="currentDeletingData">
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text">帳號</span>
-          </div>
-          <input type="text" class="form-control" disabled="disabled"
-            value="{{currentTableData[currentDeletingIndex]?.Account}}" />
-        </div>
-        <div class="alert alert-warning" role="alert">確定刪除該帳號嗎？</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" #cancelButtonForDeleting>取消</button>
-        <button type="button" class="btn btn-primary" (click)="doDeleting(cancelButtonForDeleting)">確定</button>
-      </div>
-    </div>
+<ng-template #modalForDeleting>
+  <div class="modal-header">
+    <h5 class="modal-title"><i class="fa fa-trash"></i> 刪除帳號</h5>
   </div>
-</div>
+  <div class="modal-body" *ngIf="currentDeletingData">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">帳號</span>
+      </div>
+      <input type="text" class="form-control" disabled="disabled"
+        value="{{currentTableData[currentDeletingIndex]?.Account}}" />
+    </div>
+    <div class="alert alert-warning" role="alert">確定刪除該帳號嗎？</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">取消</button>
+    <button type="button" class="btn btn-primary" (click)="doDeleting()"
+      [disabled]="buttonDisabledForDeleting">確定</button>
+  </div>
+</ng-template>
